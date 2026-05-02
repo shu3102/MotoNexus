@@ -1,0 +1,33 @@
+{
+  "log": ["*"],
+  "databases": {
+    "motoneus": {
+      "server": "couchbase://couchbase",
+      "bucket": "users",
+      "username": "admin",
+      "password": "password",
+      "enable_shared_bucket_access": true,
+      "import_docs": true,
+      "num_index_replicas": 0,
+      "users": {
+        "GUEST": {"disabled": true}
+      },
+      "sync": `
+        function (doc, oldDoc, meta) {
+          if (doc.type === "user") {
+            // A user can only access their own profile
+            requireUser(doc.id);
+            channel(doc.id);
+          } else if (doc.type === "vehicle" || doc.type === "document") {
+            // Assets belong to the user
+            if (!doc.ownerId) {
+              throw({forbidden: "Document must have an ownerId"});
+            }
+            requireUser(doc.ownerId);
+            channel(doc.ownerId);
+          }
+        }
+      `
+    }
+  }
+}

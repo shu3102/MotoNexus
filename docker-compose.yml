@@ -1,0 +1,105 @@
+
+services:
+  # --- Database & Sync ---
+  couchbase:
+    image: couchbase:enterprise-7.2.4
+    container_name: motoneus-couchbase
+    ports:
+      - "8091-8096:8091-8096" # UI, Cluster mgmt, Query, etc.
+      - "11210:11210" # Data service
+    volumes:
+      - couchbase_data:/opt/couchbase/var
+    environment:
+      - COUCHBASE_ADMINISTRATOR_USERNAME=admin
+      - COUCHBASE_ADMINISTRATOR_PASSWORD=password
+
+  sync-gateway:
+    image: couchbase/sync-gateway:latest
+    container_name: motoneus-sync-gateway
+    ports:
+      - "4984:4984" # Public API
+      - "4985:4985" # Admin API
+    volumes:
+      - ./config/sync-gateway:/etc/sync_gateway
+    command: /etc/sync_gateway/sync-gateway-config.json
+    depends_on:
+      - couchbase
+
+  postgres:
+    image: postgres:15
+    container_name: motoneus-postgres
+    environment:
+      POSTGRES_DB: keycloak
+      POSTGRES_USER: keycloak
+      POSTGRES_PASSWORD: password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # --- Authentication ---
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    container_name: motoneus-keycloak
+    command: start-dev --import-realm
+    ports:
+      - "8080:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=admin
+      - KC_DB=postgres
+      - KC_DB_URL=jdbc:postgresql://postgres:5432/keycloak
+      - KC_DB_USERNAME=keycloak
+      - KC_DB_PASSWORD=password
+    volumes:
+      - keycloak_data:/opt/keycloak/data
+      - ./config/keycloak:/opt/keycloak/data/import
+    depends_on:
+      - postgres
+
+  # --- Messaging Queue ---
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.3
+    container_name: motoneus-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.3
+    container_name: motoneus-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"
+      - "29092:29092"
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: 'zookeeper:2181'
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
+
+  # --- AI Backend ---
+  ai-service:
+    build:
+      context: ./motoneus-backend/ai-service
+    container_name: motoneus-ai-service
+    ports:
+      - "8000:8000"
+
+  # --- Caching Layer ---
+  redis:
+    image: redis:7.2-alpine
+    container_name: motoneus-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  couchbase_data:
+  keycloak_data:
+  redis_data:
+  postgres_data:

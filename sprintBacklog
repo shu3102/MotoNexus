@@ -1,0 +1,65 @@
+Of course. As the Project Manager, I've broken down the technical specification into a prioritized sprint backlog. This list is organized to tackle foundational work first, enabling parallel development on features in later stages.
+
+Here is the proposed Sprint Backlog for the MotoNexus project:
+
+Sprint Backlog: MotoNexus
+Phase 1: Foundation & Core Authentication (Sprints 1-2)
+These tasks are critical and must be completed first to unblock all other development.
+
+Task 1: (Infra) Initialize Git repositories for motoneus-backend and motoneus-frontend.
+Task 2: (Infra) Set up a local docker-compose.yml file to run core infrastructure: Couchbase Server, Kafka, Redis, and Keycloak.
+Task 3: (Backend) Initialize the Spring Boot multi-module project with services: api-gateway, user-service, auth-service-adapter.
+Task 4: (Frontend) Initialize the Angular 18 project with Capacitor.
+Task 5: (Auth) Configure a "MotoNexus" realm in Keycloak for user identity management.
+Task 6: (Backend) Implement User Registration and Login endpoints in user-service that integrate with Keycloak.
+Task 7: (Backend) Configure Spring Cloud Gateway to route /auth/** requests and secure other routes.
+Task 8: (DB) Define and apply the user document schema in Couchbase Server.
+Task 9: (Frontend) Create the Login and Registration pages in the Angular app.
+Task 10: (Frontend) Implement JWT handling and authenticated state management (NgRx/Signals) in the Angular app.
+Phase 2: Digital Garage & AI-Assisted Documents (Sprints 3-4)
+Focuses on a core utility feature and the first AI integration.
+
+Task 11: (Backend) Initialize the digital-garage-service and ai-service (Python/FastAPI).
+Task 12: (DB) Define and apply vehicle and document schemas in Couchbase.
+Task 13: (Backend) Implement CRUD APIs for vehicle in the digital-garage-service.
+Task 14: (Frontend) Build the "Digital Garage" UI to display, add, and edit vehicles.
+Task 15: (Sync) Configure Couchbase Sync Gateway to sync user, vehicle, and document data between the mobile app and the server.
+Task 16: (Frontend) Integrate Couchbase Lite into the Angular/Capacitor app to enable offline viewing of the Digital Garage.
+Task 17: (AI) Create a basic /ocr/document endpoint in the ai-service that accepts an image.
+Task 18: (Backend) Implement the "Upload Document" API in digital-garage-service, which calls the ai-service for OCR and stores the extracted metadata.
+Task 19: (Frontend) Add document upload functionality to the UI.
+Task 20: (Backend) Create a scheduled job in digital-garage-service to check for document expiry and publish a DOC_EXPIRY_REMINDER event to Kafka.
+Phase 3: RideLog & Social Feed (Sprints 5-6)
+Develops trip management and the core social features in parallel.
+
+Task 21: (Backend) Initialize trip-service and feed-service.
+Task 22: (DB) Define and apply trip and post schemas in Couchbase.
+Task 23: (Backend) Implement CRUD APIs for trip management (create, add participants, view).
+Task 24: (Frontend) Build the UI for creating and viewing trips.
+Task 25: (AI) Create an /ocr/receipt endpoint in the ai-service for expense scanning.
+Task 26: (Backend) Implement "Add Expense" API in trip-service, integrating with the AI service.
+Task 27: (Frontend) Add offline-first expense tracking to the trip UI using Couchbase Lite.
+Task 28: (Backend) Implement APIs for the MotoFeed: Create Post, High-Five, and Comment in feed-service.
+Task 29: (Frontend) Build the MotoFeed UI for viewing and creating posts.
+Task 30: (Frontend) Implement offline post drafting and queueing for auto-sync.
+Phase 4: SOS, Navigation & Advanced AI (Sprints 7-8)
+Focuses on safety-critical features and performance optimizations.
+
+Task 31: (Backend) Initialize sos-service and notification-service.
+Task 32: (Backend) Implement Kafka consumer in sos-service to listen for SOS_TRIGGERED events.
+Task 33: (Backend) Integrate sos-service with an SMS Gateway (e.g., Twilio) for the SMS fallback.
+Task 34: (Frontend) Build the "One-Touch SOS" UI, which publishes the Kafka event on press.
+Task 35: (Backend) Implement notification-service to consume events (e.g., NEW_COMMENT, DOC_EXPIRY_REMINDER) and send push notifications via FCM/APNS.
+Task 36: (Frontend) Integrate Mapbox SDK for displaying maps and user location.
+Task 37: (Frontend) Implement the "Download Offline Maps" feature using the Mapbox SDK.
+Task 38: (Backend) Implement the Real-time Proximity Engine using Redis Geospatial indexes.
+Task 39: (AI) Implement the "Trip Matchmaker" algorithm in the ai-service, using Redis to cache and query "Rider DNA" vectors.
+Task 40: (Backend) Implement the "Rider DNA" calculation logic in user-service.
+Phase 5: Deployment & Hardening (Sprint 9-10)
+Prepares the application for production release.
+
+Task 41: (Infra) Write Kubernetes deployment and service configuration files for all microservices.
+Task 42: (Infra) Configure a CI/CD pipeline (e.g., GitHub Actions) to automatically build, test, and deploy services to a Kubernetes cluster.
+Task 43: (QA) Conduct end-to-end testing, focusing on the offline-sync and data conflict resolution.
+Task 44: (Security) Perform a security audit on all services, especially Auth and the Digital Garage.
+Task 45: (Performance) Load test the API Gateway and Sync Gateway to validate concurrency handling.

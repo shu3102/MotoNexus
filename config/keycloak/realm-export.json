@@ -1,0 +1,54 @@
+{
+  "realm": "MotoNexus",
+  "enabled": true,
+  "displayName": "MotoNexus",
+  "clients": [
+    {
+      "clientId": "motoneus-mobile",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "http://localhost:4200/*",
+        "motoneus://*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "publicClient": true,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true
+    },
+    {
+      "clientId": "motoneus-backend",
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "publicClient": false,
+      "bearerOnly": true,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true
+    }
+  ],
+  "users": [
+    {
+      "username": "rider_test",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Test",
+      "lastName": "Rider",
+      "email": "rider@test.com",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "password",
+          "temporary": false
+        }
+      ]
+    }
+  ]
+}
