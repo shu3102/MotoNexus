@@ -1,0 +1,104 @@
+.garage-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+.header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.vehicle-card, .doc-card {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  transition: var(--transition-fast);
+}
+
+.vehicle-card:hover, .doc-card:hover {
+  transform: translateY(-5px);
+  border-color: var(--color-primary);
+  box-shadow: 0 10px 30px rgba(255, 87, 34, 0.15);
+}
+
+.bike-icon, .doc-icon {
+  font-size: 3rem;
+  background: var(--color-surface);
+  padding: 1rem;
+  border-radius: 16px;
+}
+
+.details h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.empty {
+  justify-content: center;
+  text-align: center;
+  color: var(--color-text-muted);
+  border-style: dashed;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  display: inline-block;
+}
+.badge.warning {
+  background: rgba(255, 152, 0, 0.2);
+  color: #ff9800;
+}
+.badge.success {
+  background: rgba(76, 175, 80, 0.2);
+  color: #4caf50;
+}
+
+.scanner-overlay {
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(11, 15, 25, 0.9);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  backdrop-filter: blur(5px);
+}
+
+.scanner-line {
+  width: 300px;
+  height: 4px;
+  background: var(--color-accent);
+  box-shadow: 0 0 20px var(--color-accent);
+  margin-bottom: 2rem;
+  animation: scan 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes scan {
+  from { transform: translateY(-50px); }
+  to { transform: translateY(50px); }
+}

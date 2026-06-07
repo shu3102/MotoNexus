@@ -1,0 +1,28 @@
+<div class="ride-container animate-fade-up">
+  <div class="header">
+    <h2 class="text-gradient-primary">Fleet Tracking</h2>
+    <div class="actions">
+      <button class="btn-primary" [ngClass]="{'active': isRiding}" (click)="toggleRide()">
+        {{ isRiding ? 'Stop Ride' : 'Start Ride' }}
+      </button>
+      <button class="btn-sos" [ngClass]="{'pulsing': sosActive}" (click)="triggerSOS()">
+        SOS
+      </button>
+    </div>
+  </div>
+
+  <div class="glass-panel map-container">
+    <div id="map"></div>
+    
+    <div class="overlay-stats" *ngIf="isRiding">
+      <div class="stat">
+        <span class="label">Status</span>
+        <span class="value text-gradient">Broadcasting</span>
+      </div>
+      <div class="stat">
+        <span class="label">Riders Nearby</span>
+        <span class="value">3</span>
+      </div>
+    </div>
+  </div>
+</div>

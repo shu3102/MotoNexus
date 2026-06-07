@@ -1,0 +1,44 @@
+<div class="garage-container animate-fade-up">
+  <div class="header">
+    <h2 class="text-gradient-primary">My Digital Garage</h2>
+    <button class="btn-primary" (click)="fileInput.click()">
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+      Upload Document (AI Scan)
+    </button>
+    <input type="file" #fileInput (change)="uploadDocument($event)" style="display: none" accept="image/*" />
+  </div>
+
+  <div *ngIf="isScanning" class="scanner-overlay">
+    <div class="scanner-line"></div>
+    <p>AI Engine Scanning Document...</p>
+  </div>
+
+  <div class="section-title text-gradient">My Vehicles</div>
+  <div class="grid">
+    <div class="glass-panel vehicle-card" *ngFor="let vehicle of vehicles">
+      <div class="bike-icon">🏍️</div>
+      <div class="details">
+        <h3>{{ vehicle.year }} {{ vehicle.make }}</h3>
+        <p class="text-gradient">{{ vehicle.model }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title text-gradient" style="margin-top: 3rem;">Secure Documents</div>
+  <div class="grid">
+    <div class="glass-panel doc-card" *ngFor="let doc of documents">
+      <div class="doc-icon">📄</div>
+      <div class="details" style="flex: 1">
+        <h3>{{ doc.title }}</h3>
+        <p class="text-gradient">Expires: {{ doc.expiryDate }}</p>
+      </div>
+      <div class="sync-status">
+        <span *ngIf="doc.syncStatus === 'PENDING'" class="badge warning">⏳ Offline (Pending Sync)</span>
+        <span *ngIf="doc.syncStatus === 'SYNCED'" class="badge success">☁️ Synced to Cloud</span>
+      </div>
+    </div>
+    <div class="glass-panel doc-card empty" *ngIf="documents.length === 0">
+      <p>No documents found. Upload one to securely vault it offline.</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,26 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: ridelog-service
+  couchbase:
+    connection-string: couchbase://localhost
+    user-name: admin
+    password: password
+  data:
+    couchbase:
+      bucket-name: ridelog
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: ridelog-analytics-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/MotoNexus

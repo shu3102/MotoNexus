@@ -1,0 +1,36 @@
+<div class="ridelog-container animate-fade-up">
+  <div class="header">
+    <h2 class="text-gradient-primary">RideLog & Analytics</h2>
+    <p class="text-gradient">AI-powered trip summaries.</p>
+  </div>
+
+  <div class="grid">
+    <div class="glass-panel trip-card" *ngFor="let trip of trips">
+      <div class="trip-header">
+        <h3>Trip {{ trip.id.substring(10, 16) }}</h3>
+        <span class="badge success">{{ trip.status }}</span>
+      </div>
+      
+      <p class="date">{{ trip.startTime | date:'medium' }}</p>
+      
+      <div class="stats-grid">
+        <div class="stat-box">
+          <span class="label">Distance</span>
+          <span class="value">{{ trip.totalDistanceKm }} km</span>
+        </div>
+        <div class="stat-box ai-glow">
+          <span class="label">Max Lean</span>
+          <span class="value">{{ trip.analytics?.maxLeanAngle }}°</span>
+        </div>
+        <div class="stat-box ai-glow">
+          <span class="label">Avg Speed</span>
+          <span class="value">{{ trip.analytics?.avgSpeed }} km/h</span>
+        </div>
+        <div class="stat-box text-gradient-primary">
+          <span class="label">Est. Fuel Cost</span>
+          <span class="value">${{ trip.analytics?.estimatedFuelCost }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

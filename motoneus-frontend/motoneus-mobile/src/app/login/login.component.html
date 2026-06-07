@@ -1,0 +1,18 @@
+<div class="login-container">
+  <div class="glass-panel animate-fade-up">
+    <div class="logo-area">
+      <h1 class="text-gradient-primary">MotoNexus</h1>
+      <p class="subtitle text-gradient">The Ultimate Digital Garage & Rider Community</p>
+    </div>
+
+    <div class="action-area">
+      <button class="btn-primary login-btn" (click)="login()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/><polyline points="10 17 15 12 10 7"/><line x1="15" y1="12" x2="3" y2="12"/></svg>
+        Connect Identity & Ride
+      </button>
+      
+      <p class="hint">Offline-first. Secure. Built for the open road.</p>
+      <p class="hint" style="color: #ff5722; font-weight: bold;">{{ authService.errorMsg }}</p>
+    </div>
+  </div>
+</div>

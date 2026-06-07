@@ -1,0 +1,57 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: user-service
+          uri: http://localhost:8081
+          predicates:
+            - Path=/api/users/**
+          filters:
+            - TokenRelay=
+        - id: digital-garage-service
+          uri: http://localhost:8082
+          predicates:
+            - Path=/api/garage/**
+          filters:
+            - TokenRelay=
+        - id: fleet-tracking-service
+          uri: http://localhost:8083
+          predicates:
+            - Path=/api/fleet/**
+          filters:
+            - TokenRelay=
+        - id: ridelog-service
+          uri: http://localhost:8084
+          predicates:
+            - Path=/api/ridelog/**
+          filters:
+            - TokenRelay=
+        - id: community-service
+          uri: http://localhost:8085
+          predicates:
+            - Path=/api/community/**
+          filters:
+            - TokenRelay=
+  security:
+    oauth2:
+      client:
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/MotoNexus
+        registration:
+          keycloak:
+            client-id: motoneus-backend
+            client-secret: secret
+            authorization-grant-type: authorization_code
+            scope: openid, profile, email
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
